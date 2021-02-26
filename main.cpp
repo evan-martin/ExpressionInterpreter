@@ -46,6 +46,7 @@ void parseAssignments(stringstream &streamLine)
     char assignop, delimiter;
     string variable;
     double value;
+    symbolTable.clear();
     do
     {
         variable = parseName(streamLine);
