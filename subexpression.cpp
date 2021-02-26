@@ -1,4 +1,6 @@
 #include <iostream>
+#include <sstream>
+
 using namespace std;
 
 #include "expression.h"
@@ -15,16 +17,16 @@ SubExpression::SubExpression(Expression* left, Expression* right)
     this->right = right;
 }
 
-Expression * SubExpression::parse()
+Expression * SubExpression::parse(stringstream &streamLine)
 {
     Expression* left;
     Expression* right;
     char operation, paren;
 
-    left = Operand::parse();
-    cin >> operation;
-    right = Operand::parse();
-    cin >> paren;
+    left = Operand::parse(streamLine);
+    streamLine >> operation;
+    right = Operand::parse(streamLine);
+    streamLine >> paren;
     switch (operation)
     {
         case '+':

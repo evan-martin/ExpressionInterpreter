@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -13,7 +14,7 @@ using namespace std;
 SymbolTable symbolTable;
 
 
-void parseAssignments();
+void parseAssignments(stringstream &streamLine);
 
 int main(){
 
@@ -23,15 +24,14 @@ int main(){
     if (file.is_open()) {
         while (getline(file, line)) {
 
-            cout << line << '\n';
             Expression* expression;
             char paren, comma;
-            cout << "Enter expression: ";
-            cin >> paren;
-            expression = SubExpression::parse();
-            cin >> comma;
-            parseAssignments();
-            cout << "Value = " << expression->evaluate() << endl;
+            stringstream streamLine(line);
+            streamLine >> paren;
+            expression = SubExpression::parse(streamLine);
+            streamLine >> comma;
+            parseAssignments(streamLine);
+            cout << line << '\t' << "Value = " << expression->evaluate() << endl;
 
         }
         file.close();
@@ -41,15 +41,15 @@ int main(){
 }
 
 
-void parseAssignments()
+void parseAssignments(stringstream &streamLine)
 {
     char assignop, delimiter;
     string variable;
     double value;
     do
     {
-        variable = parseName();
-        cin >> ws >> assignop >> value >> delimiter;
+        variable = parseName(streamLine);
+        streamLine >> ws >> assignop >> value >> delimiter;
         symbolTable.insert(variable, value);
     }
     while (delimiter == ',');
