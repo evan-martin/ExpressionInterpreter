@@ -16,6 +16,7 @@ using namespace std;
 #include "negation.h"
 #include "or.h"
 #include "and.h"
+#include "conditional.h"
 
 SubExpression::SubExpression(Expression* left, Expression* right)
 {
@@ -27,34 +28,46 @@ Expression * SubExpression::parse(stringstream &streamLine)
 {
     Expression* left;
     Expression* right;
+    Expression* condition;
     char operation, paren;
 
     left = Operand::parse(streamLine);
     streamLine >> operation;
-    right = Operand::parse(streamLine);
-    streamLine >> paren;
-    switch (operation)
-    {
-        case '+':
-            return new Plus(left, right);
-        case '-':
-            return new Minus(left, right);
-        case '*':
-            return new Times(left, right);
-        case '/':
-            return new Divide(left, right);
-        case '=':
-            return new Equals(left, right);
-        case '>':
-            return new GreaterThan(left, right);
-        case '<':
-            return new LessThan(left, right);
-        case '!':
-            return new Negation(left, right);
-        case '|':
-            return new Or(left, right);
-        case '&':
-            return new And(left, right);
+
+    if(operation == ':'){
+        right = Operand::parse(streamLine);
+        streamLine >> paren;
+        condition = Operand::parse(streamLine);
+        streamLine >> paren;
+        return new Conditional(left, right, condition);
     }
-    return 0;
+    else {
+        right = Operand::parse(streamLine);
+        streamLine >> paren;
+        switch (operation) {
+            case '+':
+                return new Plus(left, right);
+            case '-':
+                return new Minus(left, right);
+            case '*':
+                return new Times(left, right);
+            case '/':
+                return new Divide(left, right);
+            case '=':
+                return new Equals(left, right);
+            case '>':
+                return new GreaterThan(left, right);
+            case '<':
+                return new LessThan(left, right);
+            case '!':
+                return new Negation(left, right);
+            case '|':
+                return new Or(left, right);
+            case '&':
+                return new And(left, right);
+        }
+    }
+
+        return 0;
+
 }

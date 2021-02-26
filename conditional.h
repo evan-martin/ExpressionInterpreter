@@ -1,14 +1,17 @@
 class Conditional: public SubExpression
 {
 public:
-    Conditional(Expression* left, Expression* right):
+    Conditional(Expression* left, Expression* right, Expression* condition):
             SubExpression(left, right)
     {
+        this->condition=condition;
     }
     int evaluate()
     {
-        if(left->evaluate() || right->evaluate())
-            return 1;
-        else return 0;
+        if(condition->evaluate())
+            return left->evaluate();
+        else return right->evaluate();
     }
+private:
+    Expression *condition;
 };
