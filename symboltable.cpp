@@ -5,7 +5,7 @@ using namespace std;
 #include "symboltable.h"
 
 
-void SymbolTable::insert(string variable, double value)
+void SymbolTable::insert(string variable, int value)
 {
     const Symbol& symbol = Symbol(variable, value);
     elements.push_back(symbol);
