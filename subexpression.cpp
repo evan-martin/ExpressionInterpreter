@@ -10,6 +10,12 @@ using namespace std;
 #include "minus.h"
 #include "times.h"
 #include "divide.h"
+#include "equals.h"
+#include "greaterThan.h"
+#include "lessThan.h"
+#include "negation.h"
+#include "or.h"
+#include "and.h"
 
 SubExpression::SubExpression(Expression* left, Expression* right)
 {
@@ -37,6 +43,18 @@ Expression * SubExpression::parse(stringstream &streamLine)
             return new Times(left, right);
         case '/':
             return new Divide(left, right);
+        case '=':
+            return new Equals(left, right);
+        case '>':
+            return new GreaterThan(left, right);
+        case '<':
+            return new LessThan(left, right);
+        case '!':
+            return new Negation(left, right);
+        case '|':
+            return new Or(left, right);
+        case '&':
+            return new And(left, right);
     }
     return 0;
 }
