@@ -7,6 +7,9 @@ public:
     }
     int evaluate()
     {
+        if(right->evaluate()==0){
+            return 0;
+        }
         return left->evaluate() / right->evaluate();
     }
 };

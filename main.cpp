@@ -13,18 +13,17 @@ using namespace std;
 
 SymbolTable symbolTable;
 
-
 void parseAssignments(stringstream &streamLine);
 
-int main(){
+int main() {
 
     string line;
     fstream file;
     file.open("../input.txt");
+
     if (file.is_open()) {
         while (getline(file, line)) {
-
-            Expression* expression;
+            Expression *expression;
             char paren, comma;
             stringstream streamLine(line);
             streamLine >> paren;
@@ -32,7 +31,6 @@ int main(){
             streamLine >> comma;
             parseAssignments(streamLine);
             cout << line << '\t' << "Value = " << expression->evaluate() << endl;
-
         }
         file.close();
     }
@@ -40,18 +38,17 @@ int main(){
     return 0;
 }
 
+void parseAssignments(stringstream &streamLine) {
 
-void parseAssignments(stringstream &streamLine)
-{
     char assignop, delimiter;
     string variable;
     double value;
+
     symbolTable.clear();
-    do
-    {
+
+    do {
         variable = parseName(streamLine);
         streamLine >> ws >> assignop >> value >> delimiter;
         symbolTable.insert(variable, value);
-    }
-    while (delimiter == ',');
+    } while (delimiter == ',');
 }
